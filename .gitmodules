@@ -1,6 +1,0 @@
-[submodule "external/train-ticket"]
-	path = external/train-ticket
-	url = https://github.com/xlab-uiuc/train-ticket
-[submodule "external/flight-ticket"]
-	path = external/flight-ticket
-	url = https://github.com/xlab-uiuc/flight-ticket
