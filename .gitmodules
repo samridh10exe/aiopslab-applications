@@ -1,0 +1,6 @@
+[submodule "train-ticket"]
+	path = train-ticket
+	url = https://github.com/xlab-uiuc/train-ticket
+[submodule "flight-ticket"]
+	path = flight-ticket
+	url = https://github.com/xlab-uiuc/flight-ticket
