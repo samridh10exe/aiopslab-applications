@@ -1,34 +1,32 @@
-# Flwr for Federated Learning
+# Flower
 
-[Flower (flwr)](https://flower.dev) is a flexible and extensible federated learning framework that simplifies the development and deployment of federated learning systems. By enabling collaboration across distributed data sources while preserving data privacy, Flower provides tools to build scalable and secure FL solutions. This integration brings the power of Flower into AIOpsLab.
-This integration enables simulation, fault injection, and evaluation of federated learning (FL) scenarios within the AIOpsLab environment.
+[Flower](https://flower.dev) is a flexible and extensible federated learning framework that simplifies the development and deployment of federated learning systems. By enabling collaboration across distributed data sources while preserving data privacy, Flower provides tools to build scalable and secure FL solutions. This integration brings the power of Flower into AIOpsLab.
 
-## Key Additions
+The current implementation uses Docker containers to run Flower components on a local machine. The components include the `SuperLink`, `ServerApp`, `SuperNode` and `ClientApp`. 
 
-- **Docker-based Flower Deployment**: Run Flower’s components — `SuperLink`, `ServerApp`, `SuperNode`, and `ClientApp` — in Docker containers to simulate local FL environments.
-  
-- **Federated Fault Injection**: Inject FL-specific faults including:
-- **SuperNode termination** – Simulates communication breakdown between client and server.
-- **Model misconfiguration** – Tests how agents handle faulty model setups during training.
+This implementation consists of a single server and two clients, running a simple CNN model on the CIFAR-10 dataset. 
 
-- **LLaMa-3 Agent Integration**: Added support to evaluate the LLaMa-3 LLM on detection tasks involving Flower-based FL setups.
+## Usage
+To get started with Flower components, first move to the `flower` directory.
 
-## Use Cases
+Run the following command to start the Flower components:
+```
+docker-compose up -d
+```
+On the first run, this will download the required Docker images. In the following runs, it will use the local images for a faster startup.
 
-This integration enables:
+To start a federated learning task, run the following command:
+```
+flwr run train local-deployment --stream
+```
+This will start the federated learning task and stream the logs of the `ServerApp` to the console.
 
-- Benchmarking of AI agents in federated environments.
-- Simulation of realistic FL faults (e.g., dropped clients, corrupted models).
-- Comparison of LLM-based agents (e.g., LLaMa-3) on fault detection performance.
+To stop the Flower components, run the following command:
+```
+docker-compose down
+```
+
+You can change various aspects of the task by modifying `train/pyproject.toml`.
 
 ## Future Work
-
-Planned enhancements include:
-
-- Kubernetes-based deployment of Flower.
-- Multi-device federated training simulations.
-- Broader fault coverage and support for newer LLM agents like GPT-4 and DeepSeek.
-
-## Note on Kubernetes Folder
-
-The `kubernetes` folder is included for storage purposes but is currently not in use.
+The `kubernetes` folder consists of files to be used in the future to create a Kubernetes deployment of the Flower components.
