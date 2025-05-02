@@ -13,6 +13,42 @@ This repo is an extension and customization of the original [DeathStarBench](htt
     - Modification of Dockerfile to build the SocialNetwork images.
 - Removal of unnecessary files and directories for AIOpsLab.
 
+## New Application: Flower (flwr) Integration
+
+We have added support for [Flower (flwr)](https://flower.dev) — a flexible and extensible federated learning framework — into AIOpsLab.  
+This integration enables simulation, fault injection, and evaluation of federated learning (FL) scenarios within the AIOpsLab environment.
+
+### Key Additions
+
+- **Docker-based Flower Deployment**: Run Flower’s components — `SuperLink`, `ServerApp`, `SuperNode`, and `ClientApp` — in Docker containers to simulate local FL environments.
+  
+- **Federated Fault Injection**: Inject FL-specific faults including:
+- **SuperNode termination** – Simulates communication breakdown between client and server.
+- **Model misconfiguration** – Tests how agents handle faulty model setups during training.
+
+- **LLaMa-3 Agent Integration**: Added support to evaluate the LLaMa-3 LLM on detection tasks involving Flower-based FL setups.
+
+### Use Cases
+
+This integration enables:
+
+- Benchmarking of AI agents in federated environments.
+- Simulation of realistic FL faults (e.g., dropped clients, corrupted models).
+- Comparison of LLM-based agents (e.g., LLaMa-3) on fault detection performance.
+
+### Future Work
+
+Planned enhancements include:
+
+- Kubernetes-based deployment of Flower.
+- Multi-device federated training simulations.
+- Broader fault coverage and support for newer LLM agents like GPT-4 and DeepSeek.
+
+### Note on Kubernetes Folder
+
+The `kubernetes` folder is included for storage purposes but is currently not in use.
+
+
 ## Attribution
 This repo is based on [DeathStarBench](https://github.com/delimitrou/DeathStarBench), developed by the [SAIL group](http://sail.ece.cornell.edu/) at Cornell University, and licensed under the Apache License 2.0. The original code has been modified by Microsoft to include additional features and changes specific to AIOpsLab project. The Apache License 2.0 for the original project is included.
 
