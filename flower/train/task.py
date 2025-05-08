@@ -37,7 +37,10 @@ fds = None  # Cache FederatedDataset
 
 def load_data(partition_id: int, num_partitions: int):
     """Load partition CIFAR10 data."""
+    
     # Only initialize `FederatedDataset` once
+    print("Loading data...")
+    
     global fds
     if fds is None:
         partitioner = IidPartitioner(num_partitions=num_partitions)
@@ -60,11 +63,16 @@ def load_data(partition_id: int, num_partitions: int):
     partition_train_test = partition_train_test.with_transform(apply_transforms)
     trainloader = DataLoader(partition_train_test["train"], batch_size=32, shuffle=True)
     testloader = DataLoader(partition_train_test["test"], batch_size=32)
+    
+    print("Data loaded")
     return trainloader, testloader
 
 
 def train(net, trainloader, epochs, device):
     """Train the model on the training set."""
+    
+    print("Starting training...")
+    
     net.to(device)  # move model to GPU if available
     criterion = torch.nn.CrossEntropyLoss().to(device)
     optimizer = torch.optim.Adam(net.parameters(), lr=0.01)
@@ -81,11 +89,16 @@ def train(net, trainloader, epochs, device):
             running_loss += loss.item()
 
     avg_trainloss = running_loss / len(trainloader)
+    
+    print("Training completed")
     return avg_trainloss
 
 
 def test(net, testloader, device):
     """Validate the model on the test set."""
+    
+    print("Starting testing...")
+    
     net.to(device)
     criterion = torch.nn.CrossEntropyLoss()
     correct, loss = 0, 0.0
@@ -98,15 +111,18 @@ def test(net, testloader, device):
             correct += (torch.max(outputs.data, 1)[1] == labels).sum().item()
     accuracy = correct / len(testloader.dataset)
     loss = loss / len(testloader)
+    
+    print("Testing completed")
     return loss, accuracy
 
 
 def get_weights(net):
-    print('testing')
+    print("Getting weights...")
     return [val.cpu().numpy() for _, val in net.state_dict().items()]
 
 
 def set_weights(net, parameters):
+    print("Setting weights...")
     params_dict = zip(net.state_dict().keys(), parameters)
     state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict})
     net.load_state_dict(state_dict, strict=True)
