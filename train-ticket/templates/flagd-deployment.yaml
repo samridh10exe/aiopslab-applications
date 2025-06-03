@@ -58,7 +58,7 @@ spec:
         - file:./etc/flagd/flags.yaml
         - --port
         - "8013"
-        - --management-port
+        - --metrics-port
         - "8016"
         - --cors-origin
         - "*"
