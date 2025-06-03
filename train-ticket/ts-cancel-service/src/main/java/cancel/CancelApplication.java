@@ -22,7 +22,7 @@ public class CancelApplication {
             String flagdHost = System.getenv().getOrDefault("FLAGD_HOST", "flagd");
             int flagdPort = Integer.parseInt(System.getenv().getOrDefault("FLAGD_PORT", "8013"));
             
-            FlagdProvider provider = new FlagdProvider(flagdHost, flagdPort);
+            FlagdProvider provider = new FlagdProvider();
             OpenFeatureAPI.getInstance().setProvider(provider);
             
             System.out.println("[TrainTicket][Cancel][Feature Flags] Connected to flagd at " + flagdHost + ":" + flagdPort);
