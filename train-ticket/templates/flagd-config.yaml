@@ -1,0 +1,168 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flagd-config
+  namespace: train-ticket
+data:
+  flags.yaml: |
+    flags:
+      fault-1-async-message-order:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+        targeting:
+          if:
+            - var: "enabled"
+            - in:
+              - true
+              - var: "enabled"
+          then: "on"
+      
+      fault-2-cpu-occupancy:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-3-memory-leak:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-4-connection-pool-exhaustion:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-5-network-partition:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-6-disk-space-full:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-7-service-unavailable:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-8-database-lock-timeout:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-9-message-queue-overflow:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-10-slow-database-query:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-11-configuration-error:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-12-authentication-failure:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-13-cache-miss-storm:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-14-http-timeout:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-15-data-inconsistency:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-16-service-discovery-failure:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-17-load-balancer-failure:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-18-session-timeout:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-19-payment-gateway-error:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-20-email-service-failure:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-21-file-upload-failure:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"
+      
+      fault-22-monitoring-system-failure:
+        state: ENABLED
+        variants:
+          "on": true
+          "off": false
+        defaultVariant: "off"

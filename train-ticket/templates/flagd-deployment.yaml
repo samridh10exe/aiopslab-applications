@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flagd
+  namespace: train-ticket
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: flagd-reader
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: flagd-reader-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: flagd-reader
+subjects:
+- kind: ServiceAccount
+  name: flagd
+  namespace: train-ticket
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flagd
+  namespace: train-ticket
+  labels:
+    app: flagd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flagd
+  template:
+    metadata:
+      labels:
+        app: flagd
+    spec:
+      serviceAccountName: flagd
+      containers:
+      - name: flagd
+        image: ghcr.io/open-feature/flagd:v0.6.7
+        ports:
+        - containerPort: 8013
+          name: grpc
+        - containerPort: 8016
+          name: http
+        args:
+        - start
+        - --uri
+        - file:./etc/flagd/flags.yaml
+        - --port
+        - "8013"
+        - --management-port
+        - "8016"
+        - --cors-origin
+        - "*"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/flagd
+          readOnly: true
+        env:
+        - name: FLAGD_LOG_LEVEL
+          value: "info"
+        livenessProbe:
+          httpGet:
+            path: /readyz
+            port: 8016
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8016
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: config-volume
+        configMap:
+          name: flagd-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flagd
+  namespace: train-ticket
+  labels:
+    app: flagd
+spec:
+  selector:
+    app: flagd
+  ports:
+  - name: grpc
+    port: 8013
+    targetPort: 8013
+    protocol: TCP
+  - name: http
+    port: 8016
+    targetPort: 8016
+    protocol: TCP
+  type: ClusterIP

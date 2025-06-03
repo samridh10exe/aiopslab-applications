@@ -1,9 +1,0 @@
-[submodule "train-ticket"]
-	path = train-ticket
-	url = https://github.com/xlab-uiuc/train-ticket
-[submodule "flight-ticket"]
-	path = flight-ticket
-	url = https://github.com/xlab-uiuc/flight-ticket
-[submodule "path"]
-	path = path
-	url = https://github.com/open-telemetry/opentelemetry-helm-charts
